@@ -1,724 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>SOCIETY | Web3 Community</title>
-
-    <meta name="description"
-        content="Discover Alpha. Stay Informed. Grow Together.">
-
-    <link rel="icon" href="assets/logo.png">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-
+    <link rel="icon" type="image/png" href="assets/logo.png">
 </head>
-
 <body>
 
-<!-- ===================================== -->
-<!-- Background -->
-<!-- ===================================== -->
-
-<div class="bg-gradient"></div>
-
-<div class="bg-grid"></div>
-
-<!-- ===================================== -->
-<!-- Navbar -->
-<!-- ===================================== -->
-
-<header>
-
-    <div class="logo">
-
-        <img src="assets/logo.png">
-
-        <span>SOCIETY</span>
-
+    <!-- Loading Screen -->
+    <div class="loader">
+        <div class="loader-ring"></div>
+        <div class="loader-text">SOCIETY</div>
     </div>
 
-    <nav>
+    <!-- Scroll Progress -->
+    <div class="scroll-progress"></div>
 
-        <a href="#home">Home</a>
+    <!-- Background -->
+    <div class="bg-gradient"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-noise"></div>
 
-        <a href="#about">About</a>
-
-        <a href="#services">Services</a>
-
-        <a href="#team">Team</a>
-
-        <a href="#faq">FAQ</a>
-
-    </nav>
-
-    <div class="nav-social">
-
-        <a href="https://x.com/SocietyDKA"
-            target="_blank">
-
-            <i class="fa-brands fa-x-twitter"></i>
-
+    <!-- Header -->
+    <header id="header">
+        <a href="#" class="logo">
+            <img src="assets/logo.png" alt="Society Logo">
+            <span>SOCIETY</span>
         </a>
-
-        <a href="https://discord.gg/45958y4vF"
-            target="_blank">
-
-            <i class="fa-brands fa-discord"></i>
-
-        </a>
-
-    </div>
-
-</header>
-
-<!-- ===================================== -->
-<!-- HERO -->
-<!-- ===================================== -->
-
-<section class="hero" id="home">
-
-    <div class="hero-content">
-
-        <span class="hero-badge">
-
-            BUILD • CONNECT • GROW
-
-        </span>
-
-        <h1>
-
-            The Home For
-            <span>Web3 Builders</span>
-
-        </h1>
-
-        <p>
-
-            Society is more than just a Discord community.
-
-            We help members discover Alpha, participate in X Raids,
-            stay informed with the latest Web3 insights,
-            AI developments, Crypto trends,
-            and exclusive airdrop opportunities.
-
-        </p>
-
-        <div class="hero-buttons">
-
-            <a href="https://discord.gg/45958y4vF"
-                target="_blank"
-                class="btn-primary">
-
-                Join Society
-
+        <nav>
+            <a href="#home" class="nav-link active">Home</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#services" class="nav-link">Services</a>
+            <a href="#faq" class="nav-link">FAQ</a>
+        </nav>
+        <div class="nav-social">
+            <a href="#" aria-label="Discord" title="Discord">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
             </a>
-
-            <a href="#about"
-                class="btn-secondary">
-
-                Learn More
-
+            <a href="#" aria-label="X / Twitter" title="X / Twitter">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
             </a>
-
         </div>
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
 
-        <div class="hero-stats">
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#home" class="mobile-link">Home</a>
+        <a href="#about" class="mobile-link">About</a>
+        <a href="#services" class="mobile-link">Services</a>
+        <a href="#faq" class="mobile-link">FAQ</a>
+    </div>
 
-            <div>
-
-                <h3>Web3</h3>
-
-                <span>Research</span>
-
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="pulse-dot"></span>
+                Web3 Community Active Now
             </div>
-
-            <div>
-
-                <h3>Alpha</h3>
-
-                <span>Community</span>
-
+            <h1>
+                The Home For<br>
+                <span class="gradient-text" id="typingText">Web3 Builders</span>
+                <span class="cursor">|</span>
+            </h1>
+            <p class="hero-desc">
+                Society is more than just a Discord community. We help members discover Alpha, 
+                participate in X Raids, stay informed with the latest Web3 insights, AI developments, 
+                Crypto trends, and exclusive airdrop opportunities.
+            </p>
+            <div class="hero-buttons">
+                <a href="#" class="btn-primary">
+                    <span>Join Society</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </a>
+                <a href="#about" class="btn-secondary">Learn More</a>
             </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <h3>24/7</h3>
+                    <span>Community</span>
+                </div>
+                <div class="hero-stat">
+                    <h3>Daily</h3>
+                    <span>Alpha Shared</span>
+                </div>
+                <div class="hero-stat">
+                    <h3>Growing</h3>
+                    <span>Community</span>
+                </div>
+                <div class="hero-stat">
+                    <h3>100%</h3>
+                    <span>Free to Join</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="assets/logo.png" alt="Society Logo" id="heroImg">
+        </div>
+    </section>
 
-            <div>
+    <!-- Why Society -->
+    <section class="why" id="about">
+        <div class="section-header reveal">
+            <span class="section-label">Why Society</span>
+            <h2>More Than Just Another<br><span class="gradient-text">Web3 Community</span></h2>
+            <p>The strongest opportunities are never built alone. Society brings together builders, creators, investors, traders, and curious minds who want to learn, collaborate, and grow together.</p>
+        </div>
+        <div class="why-grid">
+            <div class="why-card reveal">
+                <div class="card-glow"></div>
+                <div class="why-icon">🌐</div>
+                <h3>Web3 Research</h3>
+                <p>Deep-dive analysis into emerging protocols, DeFi strategies, and blockchain ecosystems.</p>
+            </div>
+            <div class="why-card reveal">
+                <div class="card-glow"></div>
+                <div class="why-icon">⚡</div>
+                <h3>Alpha Community</h3>
+                <p>Get early access to promising projects, hidden gems, and valuable market insights.</p>
+            </div>
+            <div class="why-card reveal">
+                <div class="card-glow"></div>
+                <div class="why-icon">🚀</div>
+                <h3>X Raid Support</h3>
+                <p>Join coordinated community raids to boost visibility and support fellow builders.</p>
+            </div>
+            <div class="why-card reveal">
+                <div class="card-glow"></div>
+                <div class="why-icon">🎁</div>
+                <h3>Airdrop Updates</h3>
+                <p>Stay ahead with real-time alerts on new testnets, campaigns, and reward opportunities.</p>
+            </div>
+        </div>
+    </section>
 
+    <!-- Services -->
+    <section class="services" id="services">
+        <div class="section-header reveal">
+            <span class="section-label">What We Do</span>
+            <h2>Everything You Need<br><span class="gradient-text">To Stay Ahead</span></h2>
+            <p>Comprehensive support for every stage of your Web3 journey.</p>
+        </div>
+        <div class="service-grid">
+            <div class="service-card reveal">
+                <div class="card-glow"></div>
+                <div class="service-icon">📢</div>
+                <h3>Alpha Calls</h3>
+                <p>Early opportunities, hidden gems, and ecosystem discoveries delivered daily to your feed.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="card-glow"></div>
+                <div class="service-icon">📰</div>
+                <h3>Airdrop Updates</h3>
+                <p>Stay informed with new campaigns, testnets, and reward opportunities as they happen.</p>
+            </div>
+            <div class="service-card reveal">
+                <div class="card-glow"></div>
+                <div class="service-icon">🤝</div>
                 <h3>X Raid</h3>
-
-                <span>Support</span>
-
+                <p>Join coordinated raids and help projects increase visibility together as a community.</p>
             </div>
-
-            <div>
-
-                <h3>Airdrop</h3>
-
-                <span>Updates</span>
-
+            <div class="service-card reveal">
+                <div class="card-glow"></div>
+                <div class="service-icon">🔬</div>
+                <h3>News & Research</h3>
+                <p>Daily Web3, AI, Crypto, and ecosystem updates from our dedicated research team.</p>
             </div>
-
         </div>
+    </section>
 
-    </div>
-
-    <div class="hero-image">
-
-        <img src="assets/logo.png">
-
-    </div>
-
-</section>
-
-<!-- ========================= -->
-<!-- PART 2 STARTS HERE -->
-<!-- ========================= -->
-<!-- ===================================== -->
-<!-- WHY SOCIETY -->
-<!-- ===================================== -->
-
-<section class="why" id="about">
-
-    <div class="section-title">
-
-        <span>WHY SOCIETY</span>
-
-        <h2>More Than Just Another Web3 Community</h2>
-
-        <p>
-
-            The strongest opportunities are never built alone.
-            Society brings together builders, creators, investors,
-            traders, and curious minds who want to learn,
-            collaborate, and grow together.
-
-        </p>
-
-    </div>
-
-    <div class="why-grid">
-
-        <div class="why-card">
-
-            <i class="fa-solid fa-users"></i>
-
-            <h3>Community First</h3>
-
-            <p>
-
-                Build meaningful relationships with
-                ambitious people in Web3.
-
-            </p>
-
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stat-box reveal">
+            <div class="stat-glow"></div>
+            <h2>24/7</h2>
+            <p>Community Activity</p>
         </div>
-
-        <div class="why-card">
-
-            <i class="fa-solid fa-bolt"></i>
-
-            <h3>Alpha Sharing</h3>
-
-            <p>
-
-                Discover promising projects,
-                early opportunities,
-                and valuable insights.
-
-            </p>
-
+        <div class="stat-box reveal">
+            <div class="stat-glow"></div>
+            <h2>∞</h2>
+            <p>Alpha Shared Daily</p>
         </div>
-
-        <div class="why-card">
-
-            <i class="fa-solid fa-rocket"></i>
-
-            <h3>X Raid</h3>
-
-            <p>
-
-                Support community members,
-                projects,
-                and expand together on X.
-
-            </p>
-
+        <div class="stat-box reveal">
+            <div class="stat-glow"></div>
+            <h2>Growing</h2>
+            <p>Community</p>
         </div>
-
-        <div class="why-card">
-
-            <i class="fa-solid fa-globe"></i>
-
-            <h3>Web3 Knowledge</h3>
-
-            <p>
-
-                Learn about AI,
-                Crypto,
-                DeFi,
-                NFTs,
-                and emerging technologies.
-
-            </p>
-
+        <div class="stat-box reveal">
+            <div class="stat-glow"></div>
+            <h2>100%</h2>
+            <p>Free to Join</p>
         </div>
+    </section>
 
-    </div>
-
-</section>
-
-<!-- ===================================== -->
-<!-- WHAT WE DO -->
-<!-- ===================================== -->
-
-<section class="services" id="services">
-
-    <div class="section-title">
-
-        <span>WHAT WE DO</span>
-
-        <h2>Everything You Need To Stay Ahead</h2>
-
-    </div>
-
-    <div class="service-grid">
-
-        <div class="service-card">
-
-            <i class="fa-solid fa-gem"></i>
-
-            <h3>Alpha Calls</h3>
-
-            <p>
-
-                Early opportunities,
-                hidden gems,
-                and ecosystem discoveries.
-
-            </p>
-
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+        <div class="section-header reveal">
+            <span class="section-label">FAQ</span>
+            <h2>Frequently Asked<br><span class="gradient-text">Questions</span></h2>
+            <p>Everything you need to know about joining Society.</p>
         </div>
-
-        <div class="service-card">
-
-            <i class="fa-solid fa-parachute-box"></i>
-
-            <h3>Airdrop Updates</h3>
-
-            <p>
-
-                Stay informed with
-                new campaigns,
-                testnets,
-                and reward opportunities.
-
-            </p>
-
-        </div>
-
-        <div class="service-card">
-
-            <i class="fa-brands fa-x-twitter"></i>
-
-            <h3>X Raid</h3>
-
-            <p>
-
-                Join coordinated raids
-                and help projects
-                increase visibility.
-
-            </p>
-
-        </div>
-
-        <div class="service-card">
-
-            <i class="fa-solid fa-newspaper"></i>
-
-            <h3>News & Research</h3>
-
-            <p>
-
-                Daily Web3,
-                AI,
-                Crypto,
-                and ecosystem updates.
-
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ===================================== -->
-<!-- COMMUNITY -->
-<!-- ===================================== -->
-
-<section class="stats">
-
-    <div class="stat-box">
-
-        <h2>24/7</h2>
-
-        <p>Community Activity</p>
-
-    </div>
-
-    <div class="stat-box">
-
-        <h2>Alpha</h2>
-
-        <p>Shared Daily</p>
-
-    </div>
-
-    <div class="stat-box">
-
-        <h2>Web3</h2>
-
-        <p>Research</p>
-
-    </div>
-
-    <div class="stat-box">
-
-        <h2>Growing</h2>
-
-        <p>Community</p>
-
-    </div>
-
-</section>
-
-<!-- ===================================== -->
-<!-- TEAM -->
-<!-- ===================================== -->
-
-<section class="team" id="team">
-
-    <div class="section-title">
-
-        <span>CORE TEAM</span>
-
-        <h2>Meet The People Behind Society</h2>
-
-        <p>
-
-            Passionate builders dedicated to
-            creating opportunities,
-            sharing knowledge,
-            and growing together.
-
-        </p>
-
-    </div>
-
-    <div class="team-grid">
-
-        <!-- DIFF -->
-
-        <div class="team-card">
-
-            <img src="assets/team1.jpg" alt="DIFF">
-
-            <h3>DIFF</h3>
-
-            <span>Co-Founder</span>
-
-            <p>
-
-                Focused on strategy,
-                partnerships,
-                ecosystem growth,
-                and long-term vision.
-
-            </p>
-
-            <div class="team-social">
-
-                <a href="https://x.com/diffsyyy" target="_blank">
-
-                    <i class="fa-brands fa-x-twitter"></i>
-
-                </a>
-
-                <a href="https://discord.com/users/1150609339736932462" target="_blank">
-
-                    <i class="fa-brands fa-discord"></i>
-
-                </a>
-
-                <a href="https://diffsy.netlify.app/" target="_blank">
-
-                    <i class="fa-solid fa-globe"></i>
-
-                </a>
-
+        <div class="faq-container">
+            <div class="faq-item reveal">
+                <div class="faq-question">
+                    <h3>What is Society?</h3>
+                    <span class="faq-toggle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                    </span>
+                </div>
+                <div class="faq-answer">
+                    <p>Society is a Web3 community where builders, creators, investors, traders, and enthusiasts connect, collaborate, and grow together in the decentralized space.</p>
+                </div>
             </div>
-
-        </div>
-
-        <!-- AXSA -->
-
-        <div class="team-card">
-
-            <img src="assets/team2.jpg" alt="AXSA">
-
-            <h3>AXSA</h3>
-
-            <span>Community & Operations</span>
-
-            <p>
-
-                Responsible for community,
-                moderation,
-                member engagement,
-                and daily operations.
-
-            </p>
-
-            <div class="team-social">
-
-                <a href="https://x.com/ehaxsa" target="_blank">
-
-                    <i class="fa-brands fa-x-twitter"></i>
-
-                </a>
-
-                <a href="https://discord.com/users/757582485520384011" target="_blank">
-
-                    <i class="fa-brands fa-discord"></i>
-
-                </a>
-
-                <a href="#" target="_blank">
-
-                    <i class="fa-solid fa-globe"></i>
-
-                </a>
-
+            <div class="faq-item reveal">
+                <div class="faq-question">
+                    <h3>Is Society free to join?</h3>
+                    <span class="faq-toggle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                    </span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! Anyone interested in Web3, AI, Crypto, and community collaboration is welcome to join. No barriers to entry.</p>
+                </div>
             </div>
-
+            <div class="faq-item reveal">
+                <div class="faq-question">
+                    <h3>What can I learn?</h3>
+                    <span class="faq-toggle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                    </span>
+                </div>
+                <div class="faq-answer">
+                    <p>Web3, Crypto, AI, Alpha hunting, Airdrops, Ecosystem Research, Networking, and much more from industry veterans and active builders.</p>
+                </div>
+            </div>
+            <div class="faq-item reveal">
+                <div class="faq-question">
+                    <h3>How can I contribute?</h3>
+                    <span class="faq-toggle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+                    </span>
+                </div>
+                <div class="faq-answer">
+                    <p>Share knowledge, support community discussions, participate in X Raids, and help fellow members grow. Everyone has something valuable to offer.</p>
+                </div>
+            </div>
         </div>
+    </section>
 
-    </div>
-
-</section>
-
-<!-- ========================= -->
-<!-- PART 3 STARTS HERE -->
-<!-- ========================= -->
-<!-- ===================================== -->
-<!-- FAQ -->
-<!-- ===================================== -->
-
-<section class="faq" id="faq">
-
-    <div class="section-title">
-
-        <span>FAQ</span>
-
-        <h2>Frequently Asked Questions</h2>
-
-    </div>
-
-    <div class="faq-container">
-
-        <div class="faq-item">
-
-            <h3>What is Society?</h3>
-
-            <p>
-
-                Society is a Web3 community where builders,
-                creators, investors, traders,
-                and enthusiasts connect,
-                collaborate, and grow together.
-
-            </p>
-
-        </div>
-
-        <div class="faq-item">
-
-            <h3>Is Society free to join?</h3>
-
-            <p>
-
-                Yes.
-                Anyone interested in Web3,
-                AI, Crypto,
-                and community collaboration
-                is welcome.
-
-            </p>
-
-        </div>
-
-        <div class="faq-item">
-
-            <h3>What can I learn?</h3>
-
-            <p>
-
-                Web3,
-                Crypto,
-                AI,
-                Alpha,
-                Airdrops,
-                Ecosystem Research,
-                Networking,
-                and much more.
-
-            </p>
-
-        </div>
-
-        <div class="faq-item">
-
-            <h3>How can I contribute?</h3>
-
-            <p>
-
-                Share knowledge,
-                support community discussions,
-                participate in X Raids,
-                and help members grow.
-
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- ===================================== -->
-<!-- CTA -->
-<!-- ===================================== -->
-
-<section class="cta">
-
-    <div class="cta-box">
-
-        <span>JOIN SOCIETY</span>
-
-        <h2>
-
-            Build Together.
-            <br>
-            Grow Together.
-            <br>
-            Win Together.
-
-        </h2>
-
-        <p>
-
-            Whether you're here to learn,
-            build,
-            connect,
-            or contribute—
-
-            your journey starts here.
-
-        </p>
-
-        <div class="hero-buttons">
-
-            <a href="https://discord.gg/45958y4vF"
-               target="_blank"
-               class="btn-primary">
-
-                Join Discord
-
+    <!-- CTA -->
+    <section class="cta">
+        <div class="cta-box reveal">
+            <div class="cta-glow"></div>
+            <span class="section-label">Join Society</span>
+            <h2>Build Together.<br><span class="gradient-text">Grow Together.</span></h2>
+            <p>Whether you're here to learn, build, connect, or contribute — your journey starts here.</p>
+            <a href="#" class="btn-primary btn-large">
+                <span>Join Society</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </a>
-
-            <a href="https://x.com/SocietyDKA"
-               target="_blank"
-               class="btn-secondary">
-
-                Follow on X
-
-            </a>
-
         </div>
+    </section>
 
-    </div>
+    <!-- Footer -->
+    <footer>
+        <img src="assets/logo.png" alt="Society" class="footer-logo">
+        <h3>SOCIETY</h3>
+        <p>Discover Alpha. Stay Informed. Build Together.</p>
+        <div class="footer-social">
+            <a href="#" aria-label="Discord">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+            </a>
+            <a href="#" aria-label="X / Twitter">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+        </div>
+        <div class="copyright">© 2026 Society. Built for Web3 builders.</div>
+    </footer>
 
-</section>
+    <!-- Back To Top -->
+    <button class="top-btn" id="topBtn" aria-label="Back to top">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    </button>
 
-<!-- ===================================== -->
-<!-- FOOTER -->
-<!-- ===================================== -->
-
-<footer>
-
-    <img src="assets/logo.png" class="footer-logo">
-
-    <h3>SOCIETY</h3>
-
-    <p>
-
-        Discover Alpha.
-        <br>
-
-        Stay Informed.
-        <br>
-
-        Grow Together.
-
-    </p>
-
-    <div class="footer-social">
-
-        <a href="https://x.com/SocietyDKA"
-           target="_blank">
-
-            <i class="fa-brands fa-x-twitter"></i>
-
-        </a>
-
-        <a href="https://discord.gg/45958y4vF"
-           target="_blank">
-
-            <i class="fa-brands fa-discord"></i>
-
-        </a>
-
-    </div>
-
-    <p class="copyright">
-
-        © 2026 Society.
-        All Rights Reserved.
-
-    </p>
-
-</footer>
-
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 </body>
-
 </html>
