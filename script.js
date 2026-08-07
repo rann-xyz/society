@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('load', () => {
             setTimeout(() => {
                 loader.classList.add('loader-hide');
-            }, 600);
+            }, 500);
         });
     }
 
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('scroll', () => {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = (scrollTop / scrollHeight) * 100;
+            const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
             progressBar.style.width = progress + '%';
         });
     }
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.getElementById('header');
     if (header) {
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
+            if (window.scrollY > 30) {
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
@@ -64,6 +64,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.style.overflow = '';
             });
         });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (mobileMenu.classList.contains('open') && 
+                !mobileMenu.contains(e.target) && 
+                !mobileToggle.contains(e.target)) {
+                mobileToggle.classList.remove('active');
+                mobileMenu.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        });
     }
 
     // ===============================
@@ -76,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const target = document.querySelector(targetId);
             if (target) {
                 const headerHeight = header ? header.offsetHeight : 0;
-                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 16;
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
@@ -102,26 +113,26 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isDeleting) {
                 typingElement.textContent = currentWord.substring(0, charIndex - 1);
                 charIndex--;
-                typingDelay = 60;
+                typingDelay = 50;
             } else {
                 typingElement.textContent = currentWord.substring(0, charIndex + 1);
                 charIndex++;
-                typingDelay = 120;
+                typingDelay = 100;
             }
 
             if (!isDeleting && charIndex === currentWord.length) {
                 isDeleting = true;
-                typingDelay = 2000;
+                typingDelay = 1800;
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 wordIndex = (wordIndex + 1) % words.length;
-                typingDelay = 500;
+                typingDelay = 400;
             }
 
             setTimeout(type, typingDelay);
         }
 
-        setTimeout(type, 1000);
+        setTimeout(type, 800);
     }
 
     // ===============================
@@ -134,41 +145,42 @@ document.addEventListener('DOMContentLoaded', () => {
             if (entry.isIntersecting) {
                 setTimeout(() => {
                     entry.target.classList.add('visible');
-                }, index * 100);
+                }, index * 80);
                 revealObserver.unobserve(entry.target);
             }
         });
     }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -60px 0px'
+        threshold: 0.08,
+        rootMargin: '0px 0px -40px 0px'
     });
 
     revealElements.forEach(el => revealObserver.observe(el));
 
     // ===============================
-    // HERO MOUSE PARALLAX
+    // HERO MOUSE PARALLAX (desktop only)
     // ===============================
     const heroContent = document.querySelector('.hero-content');
     const heroImage = document.querySelector('.hero-image img');
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
 
-    if (heroContent && !window.matchMedia('(pointer: coarse)').matches) {
+    if (heroContent && !isTouchDevice) {
         let mouseX = 0, mouseY = 0;
         let currentX = 0, currentY = 0;
 
         document.addEventListener('mousemove', (e) => {
-            mouseX = (window.innerWidth / 2 - e.clientX) / 40;
-            mouseY = (window.innerHeight / 2 - e.clientY) / 40;
+            mouseX = (window.innerWidth / 2 - e.clientX) / 45;
+            mouseY = (window.innerHeight / 2 - e.clientY) / 45;
         });
 
         function animateParallax() {
-            currentX += (mouseX - currentX) * 0.08;
-            currentY += (mouseY - currentY) * 0.08;
+            currentX += (mouseX - currentX) * 0.06;
+            currentY += (mouseY - currentY) * 0.06;
 
             if (heroContent) {
                 heroContent.style.transform = `translate(${currentX}px, ${currentY}px)`;
             }
             if (heroImage) {
-                heroImage.style.transform = `translate(${-currentX * 0.5}px, ${-currentY * 0.5}px)`;
+                heroImage.style.transform = `translate(${-currentX * 0.4}px, ${-currentY * 0.4}px)`;
             }
 
             requestAnimationFrame(animateParallax);
@@ -185,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function highlightNav() {
         let current = '';
-        const scrollPos = window.scrollY + 150;
+        const scrollPos = window.scrollY + 120;
 
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
@@ -235,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const topBtn = document.getElementById('topBtn');
     if (topBtn) {
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 600) {
+            if (window.scrollY > 500) {
                 topBtn.classList.add('show');
             } else {
                 topBtn.classList.remove('show');
@@ -286,52 +298,52 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===============================
-    // HERO IMAGE MAGNETIC EFFECT
-    // ===============================
-    const heroImg = document.getElementById('heroImg');
-    if (heroImg && !window.matchMedia('(pointer: coarse)').matches) {
-        heroImg.addEventListener('mousemove', (e) => {
-            const rect = heroImg.getBoundingClientRect();
-            const x = (e.clientX - rect.left - rect.width / 2) / 15;
-            const y = (e.clientY - rect.top - rect.height / 2) / 15;
-            heroImg.style.transform = `translate(${x}px, ${y}px) scale(1.05)`;
+// HERO IMAGE MAGNETIC EFFECT (desktop only)
+// ===============================
+const heroImg = document.getElementById('heroImg');
+if (heroImg && !isTouchDevice) {
+    heroImg.addEventListener('mousemove', (e) => {
+        const rect = heroImg.getBoundingClientRect();
+        const x = (e.clientX - rect.left - rect.width / 2) / 18;
+        const y = (e.clientY - rect.top - rect.height / 2) / 18;
+        heroImg.style.transform = `translate(${x}px, ${y}px) scale(1.03)`;
+    });
+
+    heroImg.addEventListener('mouseleave', () => {
+        heroImg.style.transform = '';
+    });
+}
+
+// ===============================
+// CARD TILT EFFECT (desktop only)
+// ===============================
+const tiltCards = document.querySelectorAll('.why-card, .service-card, .stat-box');
+
+if (!isTouchDevice) {
+    tiltCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 25;
+            const rotateY = (centerX - x) / 25;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
         });
 
-        heroImg.addEventListener('mouseleave', () => {
-            heroImg.style.transform = '';
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
         });
-    }
+    });
+}
 
-    // ===============================
-    // CARD TILT EFFECT
-    // ===============================
-    const tiltCards = document.querySelectorAll('.why-card, .service-card, .stat-box');
-
-    if (!window.matchMedia('(pointer: coarse)').matches) {
-        tiltCards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 20;
-                const rotateY = (centerX - x) / 20;
-
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = '';
-            });
-        });
-    }
-
-    // ===============================
-    // CONSOLE MESSAGE
-    // ===============================
-    console.log('%c🔮 Welcome to Society', 'font-size: 20px; color: #8b5cf6; font-weight: bold; font-family: monospace;');
-    console.log('%cDiscover Alpha. Stay Informed. Build Together.', 'font-size: 13px; color: #9ca3b8; font-family: monospace;');
+// ===============================
+// CONSOLE MESSAGE
+// ===============================
+console.log('%c🔮 Welcome to Society', 'font-size: 20px; color: #8b5cf6; font-weight: bold; font-family: monospace;');
+console.log('%cDiscover Alpha. Stay Informed. Build Together.', 'font-size: 13px; color: #9ca3b8; font-family: monospace;');
 
 });
 
