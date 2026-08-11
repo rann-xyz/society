@@ -187,7 +187,8 @@
     const route = link.dataset.route;
     if (!ROUTES[route]) return;
     event.preventDefault();
-    if (window.location.hash.replace("#", "") !== route) { window.location.hash = route; } else { navigate(route, true); }
+    if (window.location.hash.replace("#", "") !== route) { window.location.hash = route; }
+    navigate(route, true);
   };
 
   const handleKeydown = (event) => { if (event.key === "Escape") closeMobileMenu(); };
@@ -207,4 +208,5 @@
 
   if (document.readyState === "loading") { document.addEventListener("DOMContentLoaded", init); } else { init(); }
 })();
+
 
