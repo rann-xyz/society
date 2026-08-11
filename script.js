@@ -1,4 +1,5 @@
 
+
 (() => {
   "use strict";
 
@@ -184,10 +185,14 @@
   const handleClick = (event) => {
     const link = event.target.closest("[data-route]");
     if (!link) return;
+    event.preventDefault();
+    event.stopPropagation();
     const route = link.dataset.route;
     if (!ROUTES[route]) return;
-    event.preventDefault();
-    if (window.location.hash.replace("#", "") !== route) { window.location.hash = route; }
+    const currentHash = window.location.hash.replace("#", "");
+    if (currentHash !== route) {
+      history.pushState({ route: route }, "", "#" + route);
+    }
     navigate(route, true);
   };
 
@@ -199,6 +204,7 @@
     document.addEventListener("click", handleClick);
     document.addEventListener("keydown", handleKeydown);
     window.addEventListener("hashchange", handleRoute);
+    window.addEventListener("popstate", () => navigate(getRoute(), false));
     window.addEventListener("scroll", updateScrollProgress, { passive: true });
     initCursor();
     updateScrollProgress();
@@ -208,5 +214,6 @@
 
   if (document.readyState === "loading") { document.addEventListener("DOMContentLoaded", init); } else { init(); }
 })();
+
 
 
