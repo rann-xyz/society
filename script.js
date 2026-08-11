@@ -1,458 +1,498 @@
-/* ============================================
-   SOCIETY — Premium Editorial JavaScript
-   ============================================ */
+(() => {
+    "use strict";
 
-document.addEventListener('DOMContentLoaded', () => {
-
-    // ============================================
-    // LOADER
-    // ============================================
-
-    const loader = document.getElementById('loader');
-
-    const hideLoader = () => {
-        if (loader) {
-            loader.classList.add('hidden');
-            setTimeout(() => {
-                loader.style.display = 'none';
-                initHeroAnimations();
-            }, 800);
+    const ROUTES = {
+        home: {
+            title: "SOCIETY — Community & Culture",
+            eyebrow: "A living community",
+            heading: "People create the culture.",
+            intro: "SOCIETY is a space for people who want to build, share, contribute and move culture forward together.",
+            template: "home"
+        },
+        about: {
+            title: "About — SOCIETY",
+            eyebrow: "About Society",
+            heading: "Built around people, not platforms.",
+            intro: "SOCIETY brings people, ideas and independent projects into one environment where participation matters more than attention.",
+            template: "about"
+        },
+        people: {
+            title: "People — SOCIETY",
+            eyebrow: "People",
+            heading: "The people are the network.",
+            intro: "Meet the builders, creators, thinkers and contributors shaping the character of SOCIETY.",
+            template: "people"
+        },
+        culture: {
+            title: "Culture — SOCIETY",
+            eyebrow: "Culture",
+            heading: "Culture is what we do repeatedly.",
+            intro: "Our culture is built through curiosity, useful conversations, creative work and the willingness to contribute.",
+            template: "culture"
+        },
+        contribution: {
+            title: "Contribution — SOCIETY",
+            eyebrow: "Contribution",
+            heading: "Bring something to the table.",
+            intro: "Contribution can be a project, an idea, a skill, a connection or simply the time you give to another person.",
+            template: "contribution"
+        },
+        alpha: {
+            title: "Alpha — SOCIETY",
+            eyebrow: "Alpha",
+            heading: "Early ideas. Real people.",
+            intro: "Alpha is where selected ideas, experiments and opportunities are shared before they become widely visible.",
+            template: "alpha"
+        },
+        lab: {
+            title: "Lab — SOCIETY",
+            eyebrow: "Society Lab",
+            heading: "A place to test what comes next.",
+            intro: "The Lab is our experimental layer for concepts, prototypes, collaborations and new ways of connecting people.",
+            template: "lab"
+        },
+        archive: {
+            title: "Archive — SOCIETY",
+            eyebrow: "Archive",
+            heading: "Nothing useful should disappear.",
+            intro: "The Archive keeps selected conversations, projects, references and moments that helped shape the community.",
+            template: "archive"
+        },
+        join: {
+            title: "Join Society — SOCIETY",
+            eyebrow: "Join Society",
+            heading: "Find your place in the network.",
+            intro: "Start by showing up. Tell us what you make, what you care about and what you want to contribute.",
+            template: "join"
         }
     };
 
-    // Minimum loader time for cinematic feel
-    setTimeout(hideLoader, 2200);
+    const app = document.getElementById("app");
+    const nav = document.getElementById("nav");
+    const transition = document.getElementById("pageTransition");
+    const loader = document.getElementById("loader");
+    const progressBar = document.getElementById("progressBar");
+    const navToggle = document.getElementById("navToggle");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const cursor = document.getElementById("cursor");
+    const cursorFollower = document.getElementById("cursorFollower");
+    const currentYear = document.getElementById("currentYear");
 
-    // ============================================
-    // CUSTOM CURSOR
-    // ============================================
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const cursor = document.getElementById('cursor');
-    const cursorFollower = document.getElementById('cursorFollower');
+    const escapeHTML = (value) => {
+        const div = document.createElement("div");
+        div.textContent = value;
+        return div.innerHTML;
+    };
 
-    if (cursor && cursorFollower && window.matchMedia('(pointer: fine)').matches) {
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        let followerX = 0, followerY = 0;
+    function getRoute() {
+        const hash = window.location.hash.replace("#", "").trim().toLowerCase();
+        return ROUTES[hash] ? hash : "home";
+    }
 
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
+    function card(number, title, text, route = null) {
+        const href = route ? `href="#${route}" data-route="${route}"` : "";
+        return `
+            <article class="content-card ${route ? "content-card-link" : ""}">
+                <span class="card-index">${number}</span>
+                <div class="card-body">
+                    <h3>${escapeHTML(title)}</h3>
+                    <p>${escapeHTML(text)}</p>
+                    ${route ? `<a ${href} class="text-link">Explore <span>↗</span></a>` : ""}
+                </div>
+            </article>
+        `;
+    }
 
-        const animateCursor = () => {
-            cursorX += (mouseX - cursorX) * 0.2;
-            cursorY += (mouseY - cursorY) * 0.2;
-            followerX += (mouseX - followerX) * 0.08;
-            followerY += (mouseY - followerY) * 0.08;
+    function renderPage(route) {
+        const page = ROUTES[route];
 
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
-            cursorFollower.style.left = followerX + 'px';
-            cursorFollower.style.top = followerY + 'px';
+        const templates = {
+            home: `
+                <section class="page page-home">
+                    <div class="hero-grid">
+                        <div class="hero-copy">
+                            <span class="eyebrow">${page.eyebrow}</span>
+                            <h1>${page.heading}</h1>
+                            <p class="hero-intro">${page.intro}</p>
+                            <div class="hero-actions">
+                                <a href="#about" data-route="about" class="button button-primary">Discover Society <span>↗</span></a>
+                                <a href="#join" data-route="join" class="button button-ghost">Join the network</a>
+                            </div>
+                        </div>
+                        <div class="hero-art" aria-hidden="true">
+                            <div class="orbit orbit-a"></div>
+                            <div class="orbit orbit-b"></div>
+                            <div class="orbit orbit-c"></div>
+                            <span class="hero-letter">S</span>
+                            <span class="hero-caption">PEOPLE / CULTURE / CONTRIBUTION</span>
+                        </div>
+                    </div>
 
-            requestAnimationFrame(animateCursor);
+                    <div class="statement-section">
+                        <span class="section-label">The idea</span>
+                        <p class="statement">A community becomes valuable when people stop watching from the outside and start shaping what happens inside.</p>
+                    </div>
+
+                    <div class="card-grid">
+                        ${card("01", "About", "Understand what SOCIETY is, why it exists and how the community is structured.", "about")}
+                        ${card("02", "People", "Discover the people and perspectives that make the network feel alive.", "people")}
+                        ${card("03", "Culture", "See the principles that guide how we communicate, collaborate and create.", "culture")}
+                    </div>
+                </section>
+            `,
+
+            about: `
+                <section class="page">
+                    <div class="page-header">
+                        <span class="eyebrow">${page.eyebrow}</span>
+                        <h1>${page.heading}</h1>
+                        <p>${page.intro}</p>
+                    </div>
+
+                    <div class="split-section">
+                        <div class="large-copy">SOCIETY exists to make meaningful participation easier.</div>
+                        <div class="body-copy">
+                            <p>It is not built around a single product, trend or platform. It is a community layer where people can exchange ideas, discover opportunities and build relationships that extend beyond one conversation.</p>
+                            <p>The goal is simple: create an environment where being useful, curious and consistent has real value.</p>
+                        </div>
+                    </div>
+
+                    <div class="card-grid two">
+                        ${card("A", "People first", "The community is designed around human interaction and contribution.")}
+                        ${card("B", "Independent thinking", "Different opinions and disciplines make the network stronger.")}
+                        ${card("C", "Useful output", "Ideas become more valuable when they turn into something people can use.")}
+                        ${card("D", "Long-term memory", "Projects and conversations can become references for whoever comes next.")}
+                    </div>
+                </section>
+            `,
+
+            people: `
+                <section class="page">
+                    <div class="page-header">
+                        <span class="eyebrow">${page.eyebrow}</span>
+                        <h1>${page.heading}</h1>
+                        <p>${page.intro}</p>
+                    </div>
+
+                    <div class="people-list">
+                        <article class="person-row">
+                            <span>01</span><div><h2>Builders</h2><p>People turning ideas into products, projects and experiments.</p></div><b>→</b>
+                        </article>
+                        <article class="person-row">
+                            <span>02</span><div><h2>Creators</h2><p>People shaping stories, visuals, media and new forms of expression.</p></div><b>→</b>
+                        </article>
+                        <article class="person-row">
+                            <span>03</span><div><h2>Thinkers</h2><p>People bringing research, strategy, perspective and difficult questions.</p></div><b>→</b>
+                        </article>
+                        <article class="person-row">
+                            <span>04</span><div><h2>Connectors</h2><p>People who create bridges between talent, ideas and opportunities.</p></div><b>→</b>
+                        </article>
+                    </div>
+                </section>
+            `,
+
+            culture: `
+                <section class="page">
+                    <div class="page-header">
+                        <span class="eyebrow">${page.eyebrow}</span>
+                        <h1>${page.heading}</h1>
+                        <p>${page.intro}</p>
+                    </div>
+
+                    <div class="culture-grid">
+                        <div class="culture-feature">
+                            <span class="giant-word">MAKE</span>
+                            <p>Don't wait for perfect conditions. Start with what you have and make the next version better.</p>
+                        </div>
+                        <div class="culture-feature">
+                            <span class="giant-word">SHARE</span>
+                            <p>Knowledge compounds when it moves. Share context, useful references and honest lessons.</p>
+                        </div>
+                        <div class="culture-feature">
+                            <span class="giant-word">CONNECT</span>
+                            <p>Strong communities are built through relationships, not follower counts.</p>
+                        </div>
+                        <div class="culture-feature">
+                            <span class="giant-word">RESPECT</span>
+                            <p>Challenge ideas without reducing the people behind them.</p>
+                        </div>
+                    </div>
+                </section>
+            `,
+
+            contribution: `
+                <section class="page">
+                    <div class="page-header">
+                        <span class="eyebrow">${page.eyebrow}</span>
+                        <h1>${page.heading}</h1>
+                        <p>${page.intro}</p>
+                    </div>
+
+                    <div class="contribution-layout">
+                        <div class="contribution-main">
+                            <span class="section-label">Ways to contribute</span>
+                            ${card("01", "Create", "Build a project, publish an idea, make a resource or start an experiment.")}
+                            ${card("02", "Connect", "Introduce people who should know each other and create useful opportunities.")}
+                            ${card("03", "Support", "Review work, answer questions, share feedback or help someone move forward.")}
+                            ${card("04", "Document", "Turn experience into notes, guides and references that others can reuse.")}
+                        </div>
+                        <aside class="side-note">
+                            <span class="section-label">Principle</span>
+                            <strong>Contribution does not have to be loud to matter.</strong>
+                        </aside>
+                    </div>
+                </section>
+            `,
+
+            alpha: `
+                <section class="page">
+                    <div class="page-header">
+                        <span class="eyebrow">${page.eyebrow}</span>
+                        <h1>${page.heading}</h1>
+                        <p>${page.intro}</p>
+                    </div>
+
+                    <div class="alpha-panel">
+                        <div class="alpha-mark">α</div>
+                        <div>
+                            <span class="section-label">Early access layer</span>
+                            <h2>Signals before they become noise.</h2>
+                            <p>Alpha gives the community a place to surface interesting projects, early concepts, private experiments and opportunities worth watching.</p>
+                            <a href="#join" data-route="join" class="text-link">Request access <span>↗</span></a>
+                        </div>
+                    </div>
+
+                    <div class="card-grid two">
+                        ${card("A1", "Projects", "Early-stage work looking for feedback, collaborators or first users.")}
+                        ${card("A2", "Signals", "Interesting developments, people and ideas worth paying attention to.")}
+                    </div>
+                </section>
+            `,
+
+            lab: `
+                <section class="page">
+                    <div class="page-header">
+                        <span class="eyebrow">${page.eyebrow}</span>
+                        <h1>${page.heading}</h1>
+                        <p>${page.intro}</p>
+                    </div>
+
+                    <div class="lab-terminal">
+                        <div class="terminal-bar"><i></i><i></i><i></i><span>society/lab</span></div>
+                        <div class="terminal-content">
+                            <span class="terminal-muted">$ society lab --status</span>
+                            <strong>EXPERIMENTAL / OPEN</strong>
+                            <span class="terminal-muted">$ next</span>
+                            <p>Build small. Learn quickly. Share what works.</p>
+                            <a href="#join" data-route="join" class="terminal-link">> propose an experiment</a>
+                        </div>
+                    </div>
+                </section>
+            `,
+
+            archive: `
+                <section class="page">
+                    <div class="page-header">
+                        <span class="eyebrow">${page.eyebrow}</span>
+                        <h1>${page.heading}</h1>
+                        <p>${page.intro}</p>
+                    </div>
+
+                    <div class="archive-list">
+                        <article><span>2026</span><div><h2>Society / Foundations</h2><p>The principles, language and early structure behind the community.</p></div><b>↗</b></article>
+                        <article><span>2026</span><div><h2>Community Notes</h2><p>Selected ideas and observations collected from the network.</p></div><b>↗</b></article>
+                        <article><span>2026</span><div><h2>Projects</h2><p>A record of experiments, collaborations and things worth remembering.</p></div><b>↗</b></article>
+                    </div>
+                </section>
+            `,
+
+            join: `
+                <section class="page page-join">
+                    <div class="join-layout">
+                        <div class="page-header">
+                            <span class="eyebrow">${page.eyebrow}</span>
+                            <h1>${page.heading}</h1>
+                            <p>${page.intro}</p>
+                        </div>
+
+                        <form class="join-form" id="joinForm">
+                            <label>
+                                <span>Name</span>
+                                <input type="text" name="name" autocomplete="name" placeholder="Your name" required>
+                            </label>
+                            <label>
+                                <span>What do you do?</span>
+                                <input type="text" name="role" placeholder="Builder, creator, researcher..." required>
+                            </label>
+                            <label>
+                                <span>What brings you here?</span>
+                                <textarea name="reason" rows="5" placeholder="Tell us what you want to build, learn or contribute." required></textarea>
+                            </label>
+                            <button class="button button-primary" type="submit">Send introduction <span>↗</span></button>
+                            <p class="form-status" id="formStatus" role="status"></p>
+                        </form>
+                    </div>
+                </section>
+            `
         };
 
-        animateCursor();
+        return templates[page.template] || templates.home;
+    }
 
-        // Cursor states
-        const cursorTargets = document.querySelectorAll('[data-cursor]');
-
-        cursorTargets.forEach(target => {
-            const type = target.dataset.cursor;
-
-            target.addEventListener('mouseenter', () => {
-                if (type === 'cta' || type === 'row') {
-                    cursor.classList.add('expanded');
-                    cursorFollower.classList.add('hover');
-                } else if (type === 'link' || type === 'logo') {
-                    cursorFollower.classList.add('hover');
-                }
-            });
-
-            target.addEventListener('mouseleave', () => {
-                cursor.classList.remove('expanded');
-                cursorFollower.classList.remove('hover');
-            });
+    function updateNavigation(route) {
+        document.querySelectorAll("[data-route]").forEach((link) => {
+            const isActive = link.dataset.route === route;
+            link.classList.toggle("is-active", isActive);
         });
     }
 
-    // ============================================
-    // NAVBAR SCROLL
-    // ============================================
+    function updateDocument(route) {
+        const page = ROUTES[route];
+        document.title = page.title;
+        document.documentElement.dataset.route = route;
+    }
 
-    const nav = document.getElementById('nav');
+    async function navigate(route, useTransition = true) {
+        if (!ROUTES[route]) route = "home";
 
-    const handleNavScroll = () => {
-        if (window.pageYOffset > 80) {
-            nav.classList.add('scrolled');
+        const currentRoute = getRoute();
+
+        if (currentRoute === route && app.children.length) {
+            updateNavigation(route);
+            return;
+        }
+
+        if (useTransition && !prefersReducedMotion) {
+            transition.classList.add("is-visible");
+            await new Promise((resolve) => setTimeout(resolve, 250));
+        }
+
+        app.innerHTML = renderPage(route);
+        updateDocument(route);
+        updateNavigation(route);
+        closeMobileMenu();
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "instant" });
+
+        requestAnimationFrame(() => {
+            app.classList.remove("page-enter");
+            void app.offsetWidth;
+            app.classList.add("page-enter");
+        });
+
+        bindPageInteractions();
+
+        if (useTransition && !prefersReducedMotion) {
+            setTimeout(() => transition.classList.remove("is-visible"), 300);
         } else {
-            nav.classList.remove('scrolled');
+            transition.classList.remove("is-visible");
         }
-    };
+    }
 
-    window.addEventListener('scroll', handleNavScroll, { passive: true });
-    handleNavScroll();
+    function handleRoute() {
+        navigate(getRoute());
+    }
 
-    // ============================================
-    // MOBILE MENU
-    // ============================================
+    function closeMobileMenu() {
+        navToggle?.setAttribute("aria-expanded", "false");
+        mobileMenu?.setAttribute("aria-hidden", "true");
+        mobileMenu?.classList.remove("is-open");
+        document.body.classList.remove("menu-open");
+    }
 
-    const navToggle = document.getElementById('navToggle');
-    const mobileMenu = document.getElementById('mobileMenu');
+    function toggleMobileMenu() {
+        const open = navToggle.getAttribute("aria-expanded") !== "true";
+        navToggle.setAttribute("aria-expanded", String(open));
+        mobileMenu.setAttribute("aria-hidden", String(!open));
+        mobileMenu.classList.toggle("is-open", open);
+        document.body.classList.toggle("menu-open", open);
+    }
 
-    if (navToggle && mobileMenu) {
-        navToggle.addEventListener('click', () => {
-            navToggle.classList.toggle('active');
-            mobileMenu.classList.toggle('active');
-            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-        });
+    function updateScrollProgress() {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = max > 0 ? (window.scrollY / max) * 100 : 0;
+        progressBar.style.width = `${progress}%`;
+        nav.classList.toggle("is-scrolled", window.scrollY > 30);
+    }
 
-        mobileMenu.querySelectorAll('.mobile-link').forEach(link => {
-            link.addEventListener('click', () => {
-                navToggle.classList.remove('active');
-                mobileMenu.classList.remove('active');
-                document.body.style.overflow = '';
+    function bindPageInteractions() {
+        const form = document.getElementById("joinForm");
+
+        if (form) {
+            form.addEventListener("submit", (event) => {
+                event.preventDefault();
+                const status = document.getElementById("formStatus");
+                status.textContent = "Thanks. Your introduction is ready to be connected.";
+                form.reset();
             });
+        }
+
+        document.querySelectorAll("[data-cursor]").forEach((element) => {
+            element.addEventListener("mouseenter", () => cursorFollower?.classList.add("is-large"));
+            element.addEventListener("mouseleave", () => cursorFollower?.classList.remove("is-large"));
         });
     }
 
-    // ============================================
-    // SCROLL REVEAL
-    // ============================================
+    function initCursor() {
+        if (!cursor || !cursorFollower || window.matchMedia("(pointer: coarse)").matches) return;
 
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('revealed');
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.08,
-        rootMargin: '0px 0px -60px 0px'
-    });
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let followerX = mouseX;
+        let followerY = mouseY;
 
-    document.querySelectorAll('[data-reveal]').forEach(el => {
-        revealObserver.observe(el);
-    });
-
-    // Hero entrance
-    const initHeroAnimations = () => {
-        const heroTexts = document.querySelectorAll('.hero [data-reveal="text"]');
-        heroTexts.forEach((el, i) => {
-            setTimeout(() => {
-                el.classList.add('revealed');
-            }, 200 + (i * 120));
-        });
-    };
-
-    // ============================================
-    // SMOOTH SCROLL
-    // ============================================
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            if (href === '#') return;
-
-            const target = document.querySelector(href);
-            if (target) {
-                e.preventDefault();
-                const navHeight = nav ? nav.offsetHeight : 0;
-                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
-
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // ============================================
-    // PROGRESS BAR
-    // ============================================
-
-    const progressBar = document.getElementById('progressBar');
-
-    const updateProgress = () => {
-        if (!progressBar) return;
-        const scrollTop = window.pageYOffset;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        progressBar.style.width = progress + '%';
-    };
-
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    updateProgress();
-
-    // ============================================
-    // HERO PARALLAX
-    // ============================================
-
-    const heroCharLeft = document.querySelector('.hero-char-left');
-    const heroCharRight = document.querySelector('.hero-char-right');
-    const heroSection = document.querySelector('.hero');
-
-    let ticking = false;
-
-    const handleParallax = () => {
-        if (!heroSection) return;
-        const scrollY = window.pageYOffset;
-        const heroHeight = heroSection.offsetHeight;
-
-        if (scrollY < heroHeight) {
-            const progress = scrollY / heroHeight;
-
-            if (heroCharLeft) {
-                heroCharLeft.style.transform = `translateY(-50%) translateY(${scrollY * 0.12}px) rotate(${progress * 3}deg)`;
-                heroCharLeft.style.opacity = Math.max(0.03, 0.03 - progress * 0.03);
-            }
-
-            if (heroCharRight) {
-                heroCharRight.style.transform = `translateY(-50%) translateY(${scrollY * 0.08}px) rotate(${-progress * 2}deg)`;
-                heroCharRight.style.opacity = Math.max(0.03, 0.03 - progress * 0.03);
-            }
-        }
-
-        ticking = false;
-    };
-
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(handleParallax);
-            ticking = true;
-        }
-    }, { passive: true });
-
-    // ============================================
-    // ACTIVE NAV LINK
-    // ============================================
-
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
-
-    const highlightNav = () => {
-        const scrollPos = window.pageYOffset + (nav ? nav.offsetHeight : 0) + 150;
-
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.offsetHeight;
-            const sectionId = section.getAttribute('id');
-
-            if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        });
-    };
-
-    window.addEventListener('scroll', highlightNav, { passive: true });
-
-    // ============================================
-    // CULTURE HOVER DIM
-    // ============================================
-
-    const cultureItems = document.querySelectorAll('.culture-item');
-
-    cultureItems.forEach(item => {
-        item.addEventListener('mouseenter', () => {
-            cultureItems.forEach(other => {
-                if (other !== item) other.style.opacity = '0.35';
-            });
+        window.addEventListener("mousemove", (event) => {
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+            cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
         });
 
-        item.addEventListener('mouseleave', () => {
-            cultureItems.forEach(other => {
-                other.style.opacity = '1';
-            });
-        });
-    });
-
-    // ============================================
-    // ARCHIVE HOVER DIM
-    // ============================================
-
-    const archiveItems = document.querySelectorAll('.archive-item');
-
-    archiveItems.forEach(item => {
-        item.addEventListener('mouseenter', () => {
-            archiveItems.forEach(other => {
-                if (other !== item) other.style.opacity = '0.4';
-            });
-        });
-
-        item.addEventListener('mouseleave', () => {
-            archiveItems.forEach(other => {
-                other.style.opacity = '1';
-            });
-        });
-    });
-
-    // ============================================
-    // WHY HOVER DIM
-    // ============================================
-
-    const whyItems = document.querySelectorAll('.why-item');
-
-    whyItems.forEach(item => {
-        item.addEventListener('mouseenter', () => {
-            whyItems.forEach(other => {
-                if (other !== item) other.style.opacity = '0.4';
-            });
-        });
-
-        item.addEventListener('mouseleave', () => {
-            whyItems.forEach(other => {
-                other.style.opacity = '1';
-            });
-        });
-    });
-
-    // ============================================
-    // LAB ROW MOUSE FOLLOW PREVIEW
-    // ============================================
-
-    const labRows = document.querySelectorAll('.lab-row');
-
-    labRows.forEach(row => {
-        const preview = row.querySelector('.lab-row-preview');
-
-        if (preview && window.innerWidth > 1024) {
-            row.addEventListener('mousemove', (e) => {
-                const rect = row.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                preview.style.right = 'auto';
-                preview.style.left = (x + 60) + 'px';
-                preview.style.top = (y - 80) + 'px';
-                preview.style.transform = 'none';
-            });
-
-            row.addEventListener('mouseleave', () => {
-                preview.style.right = '6rem';
-                preview.style.left = 'auto';
-                preview.style.top = '50%';
-                preview.style.transform = 'translateY(-50%) scale(0.95)';
-            });
-        }
-    });
-
-    // ============================================
-    // MARQUEE SPEED BASED ON SCROLL
-    // ============================================
-
-    const marqueeTracks = document.querySelectorAll('.join-marquee-track');
-    let lastScrollY = window.pageYOffset;
-
-    const updateMarqueeSpeed = () => {
-        const currentScrollY = window.pageYOffset;
-        const speed = Math.abs(currentScrollY - lastScrollY);
-        lastScrollY = currentScrollY;
-
-        const multiplier = Math.min(1 + speed * 0.03, 3);
-        marqueeTracks.forEach(track => {
-            track.style.animationDuration = (25 / multiplier) + 's';
-        });
-    };
-
-    window.addEventListener('scroll', updateMarqueeSpeed, { passive: true });
-
-    // ============================================
-    // HERO SCROLL HINT FADE
-    // ============================================
-
-    const scrollHint = document.querySelector('.hero-scroll-hint');
-
-    if (scrollHint) {
-        const fadeScrollHint = () => {
-            const scrollY = window.pageYOffset;
-            const heroHeight = heroSection ? heroSection.offsetHeight : window.innerHeight;
-            const opacity = Math.max(0, 1 - (scrollY / (heroHeight * 0.3)));
-            scrollHint.style.opacity = opacity;
+        const animate = () => {
+            followerX += (mouseX - followerX) * 0.12;
+            followerY += (mouseY - followerY) * 0.12;
+            cursorFollower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0)`;
+            requestAnimationFrame(animate);
         };
 
-        window.addEventListener('scroll', fadeScrollHint, { passive: true });
+        animate();
     }
 
-    // ============================================
-    // PEOPLE CARD STAGGER
-    // ============================================
+    function init() {
+        currentYear.textContent = new Date().getFullYear();
 
-    const peopleCards = document.querySelectorAll('.people-card');
-    peopleCards.forEach((card, i) => {
-        card.style.transitionDelay = (i * 0.15) + 's';
-    });
+        navToggle?.addEventListener("click", toggleMobileMenu);
 
-    // ============================================
-    // CULTURE ITEM STAGGER
-    // ============================================
+        window.addEventListener("hashchange", handleRoute);
+        window.addEventListener("scroll", updateScrollProgress, { passive: true });
 
-    const cultureTrackItems = document.querySelectorAll('.culture-item');
-    cultureTrackItems.forEach((item, i) => {
-        item.style.transitionDelay = (i * 0.08) + 's';
-    });
+        document.addEventListener("click", (event) => {
+            const link = event.target.closest("[data-route]");
+            if (!link) return;
 
-    // ============================================
-    // FLOW STEP STAGGER
-    // ============================================
+            const route = link.dataset.route;
+            if (!ROUTES[route]) return;
 
-    const flowSteps = document.querySelectorAll('.flow-step, .flow-connector');
-    flowSteps.forEach((step, i) => {
-        step.style.transitionDelay = (i * 0.12) + 's';
-    });
+            if (window.location.hash.replace("#", "") === route) {
+                event.preventDefault();
+                navigate(route, true);
+            }
+        });
 
-    // ============================================
-    // BUILD STEP STAGGER
-    // ============================================
+        initCursor();
+        updateScrollProgress();
+        navigate(getRoute(), false);
 
-    const buildSteps = document.querySelectorAll('.build-step, .build-step-divider');
-    buildSteps.forEach((step, i) => {
-        step.style.transitionDelay = (i * 0.1) + 's';
-    });
+        window.addEventListener("load", () => {
+            setTimeout(() => {
+                loader?.classList.add("is-hidden");
+            }, prefersReducedMotion ? 0 : 700);
+        });
+    }
 
-    // ============================================
-    // ALPHA CARD STAGGER
-    // ============================================
-
-    const alphaCards = document.querySelectorAll('.alpha-card');
-    alphaCards.forEach((card, i) => {
-        card.style.transitionDelay = (i * 0.15) + 's';
-    });
-
-    // ============================================
-    // LAB ROW STAGGER
-    // ============================================
-
-    const labRowItems = document.querySelectorAll('.lab-row');
-    labRowItems.forEach((row, i) => {
-        row.style.transitionDelay = (i * 0.08) + 's';
-    });
-
-    // ============================================
-    // ARCHIVE ITEM STAGGER
-    // ============================================
-
-    const archiveGridItems = document.querySelectorAll('.archive-item');
-    archiveGridItems.forEach((item, i) => {
-        item.style.transitionDelay = (i * 0.06) + 's';
-    });
-
-    // ============================================
-    // WHY ITEM STAGGER
-    // ============================================
-
-    const whyGridItems = document.querySelectorAll('.why-item');
-    whyGridItems.forEach((item, i) => {
-        item.style.transitionDelay = (i * 0.1) + 's';
-    });
-
-});
-
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+    } else {
+        init();
+    }
+})();
