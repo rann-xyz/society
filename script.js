@@ -46,8 +46,8 @@
   };
 
   const MASCOTS = {
-    cipher: "https://i.ibb.co.com/VWhsSL8b/cipher.png",
-    ciphra: "https://i.ibb.co.com/3YzcB1z5/ciphra.png",
+    cipher: "https://i.ibb.co.com/3YzcB1z5/ciphra.png",
+    ciphra: "https://i.ibb.co.com/VWhsSL8b/cipher.png",
     logo: "https://i.ibb.co.com/x8X63Pqv/SOCIETY.png"
   };
 
