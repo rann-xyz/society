@@ -23,13 +23,6 @@
       intro: "From Alpha calls to airdrop updates, we provide the tools and community support you need to thrive in Web3.", 
       template: "services" 
     },
-    team: { 
-      title: "Team — SOCIETY", 
-      eyebrow: "Core Team", 
-      heading: "Meet The People Behind Society", 
-      intro: "Passionate builders dedicated to creating opportunities, sharing knowledge, and growing together.", 
-      template: "team" 
-    },
     faq: { 
       title: "FAQ — SOCIETY", 
       eyebrow: "FAQ", 
@@ -48,7 +41,7 @@
 
   const SOCIAL_LINKS = {
     x: { url: "https://x.com/SocietyFolks", label: "X (Twitter)" },
-    instagram: { url: "https://www.instagram.com/societyfolks", label: "Instagram" },
+    instagram: { url: "https://www.instagram.com/societyfolks?igsh=MWp3aHVjeGEycnl2", label: "Instagram" },
     discord: { url: "https://discord.gg/societyid", label: "Discord" }
   };
 
@@ -113,16 +106,7 @@
     </div>
   </div>`;
 
-  const teamCard = (name, role, desc, imgUrl) => `<div class="team-card">
-    <div class="team-avatar-wrap">
-      <img src="${imgUrl}" alt="${escapeHTML(name)}" loading="lazy">
-    </div>
-    <div class="team-info">
-      <h3>${escapeHTML(name)}</h3>
-      <span class="team-role">${escapeHTML(role)}</span>
-      <p>${escapeHTML(desc)}</p>
-    </div>
-  </div>`;
+  
 
   const socialIcons = {
     x: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
@@ -163,8 +147,10 @@
           <div class="orbit orbit-a"></div>
           <div class="orbit orbit-b"></div>
           <div class="orbit orbit-c"></div>
-          <img src="${MASCOTS.cipher}" alt="Cipher - Society Mascot" class="hero-mascot" loading="eager">
-          <span class="hero-caption">Cipher — The Builder</span>
+          <div class="hero-brand">
+            <span class="hero-brand-letter">S</span>
+            <span class="hero-brand-text">SOCIETY</span>
+          </div>
         </div>
       </div>
 
@@ -257,41 +243,6 @@
       </div>
 
       ${socialSection("Share the culture", "Spread the word across your networks.")}
-    </div>`,
-
-    team: (page) => `<div class="page">
-      <div class="page-header">
-        <span class="eyebrow">${page.eyebrow}</span>
-        <h1>${page.heading}</h1>
-        <p>${page.intro}</p>
-      </div>
-
-      <div class="team-section">
-        <span class="section-label">Leadership</span>
-        <div class="team-grid">
-          ${teamCard("Diff", "Co-Founder", "Focused on strategy, partnerships, ecosystem growth, and long-term vision. The architect behind Society's expansion.", MASCOTS.cipher)}
-          ${teamCard("Axsa", "Community & Operations", "Responsible for community, moderation, member engagement, and daily operations. The heartbeat of Society.", MASCOTS.ciphra)}
-        </div>
-      </div>
-
-      <div style="margin-top: var(--space-8); padding: var(--space-6); border: 1px solid var(--border); border-radius: var(--radius-lg); background: linear-gradient(135deg, rgba(216,255,62,0.04), transparent), var(--surface);">
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; text-align: center;">
-          <div>
-            <div style="font: 700 clamp(2.5rem, 5vw, 4rem)/1 var(--display); color: var(--accent); margin-bottom: 8px;">24/7</div>
-            <div style="color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em;">Community Activity</div>
-          </div>
-          <div>
-            <div style="font: 700 clamp(2.5rem, 5vw, 4rem)/1 var(--display); color: var(--accent); margin-bottom: 8px;">Alpha</div>
-            <div style="color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em;">Shared Daily</div>
-          </div>
-          <div>
-            <div style="font: 700 clamp(2.5rem, 5vw, 4rem)/1 var(--display); color: var(--accent); margin-bottom: 8px;">Growing</div>
-            <div style="color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em;">Community</div>
-          </div>
-        </div>
-      </div>
-
-      ${socialSection("Meet us online", "Connect with our community members.")}
     </div>`,
 
     faq: (page) => `<div class="page">
@@ -499,9 +450,14 @@
     updateScrollProgress();
     activeRoute = getRoute();
     navigate(getRoute(), false);
-    window.addEventListener("load", () => { 
+    const hideLoader = () => { 
       setTimeout(() => { loader?.classList.add("is-hidden"); }, prefersReducedMotion ? 0 : 800); 
-    });
+    };
+    if (document.readyState === "complete") {
+      hideLoader();
+    } else {
+      window.addEventListener("load", hideLoader);
+    }
   };
 
   if (document.readyState === "loading") { 
