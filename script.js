@@ -41,7 +41,7 @@
 
   const SOCIAL_LINKS = {
     x: { url: "https://x.com/SocietyFolks", label: "X (Twitter)" },
-    instagram: { url: "https://www.instagram.com/societyfolks?igsh=MWp3aHVjeGEycnl2", label: "Instagram" },
+    instagram: { url: "https://www.instagram.com/societyfolks", label: "Instagram" },
     discord: { url: "https://discord.gg/societyid", label: "Discord" }
   };
 
@@ -423,14 +423,21 @@
   };
 
   const handleClick = (event) => {
-    const link = event.target.closest("[data-route]");
+    const link = event.target.closest("a");
     if (!link) return;
-    // Don't intercept external links
-    if (link.getAttribute("target") === "_blank") return;
+
+    // Always allow external links and links with target="_blank"
+    const href = link.getAttribute("href") || "";
+    if (href.startsWith("http") || link.getAttribute("target") === "_blank") {
+      return;
+    }
+
+    // Only intercept internal navigation links with data-route
+    const route = link.dataset.route;
+    if (!route || !ROUTES[route]) return;
+
     event.preventDefault();
     event.stopPropagation();
-    const route = link.dataset.route;
-    if (!ROUTES[route]) return;
     if (window.location.hash.replace("#", "") !== route) {
       window.location.hash = route;
     }
