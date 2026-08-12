@@ -135,10 +135,10 @@
     home: (page) => `<div class="page">
       <div class="hero-grid">
         <div class="hero-copy">
-          <span class="eyebrow">${page.eyebrow}</span>
-          <h1>${page.heading}</h1>
-          <p class="hero-intro">${page.intro}</p>
-          <div class="hero-actions">
+          <span class="eyebrow reveal">${page.eyebrow}</span>
+          <h1 class="reveal reveal-delay-1">${page.heading}</h1>
+          <p class="hero-intro reveal reveal-delay-2">${page.intro}</p>
+          <div class="hero-actions reveal reveal-delay-3">
             ${btn("Explore About", "about", "primary")}
             ${btn("Join Society", "join", "ghost")}
           </div>
@@ -154,12 +154,12 @@
         </div>
       </div>
 
-      <div class="statement-section">
+      <div class="statement-section reveal">
         <span class="section-label">The Idea</span>
         <p class="statement">A community becomes valuable when people stop watching from the outside and start shaping what happens inside.</p>
       </div>
 
-      <div class="card-grid">
+      <div class="card-grid stagger-children">
         ${card("01", "Web3 Research", "Deep dive into blockchain ecosystems, DeFi protocols, and emerging technologies.")}
         ${card("02", "Alpha Community", "Discover promising projects, early opportunities, and valuable insights before the crowd.")}
         ${card("03", "X Raid Support", "Join coordinated raids and help community projects increase visibility on X.")}
@@ -174,12 +174,12 @@
 
     about: (page) => `<div class="page">
       <div class="page-header">
-        <span class="eyebrow">${page.eyebrow}</span>
-        <h1>${page.heading}</h1>
+        <span class="eyebrow reveal">${page.eyebrow}</span>
+        <h1 class="reveal reveal-delay-1">${page.heading}</h1>
         <p>${page.intro}</p>
       </div>
 
-      <div class="split-section">
+      <div class="split-section reveal">
         <div class="large-copy">Society exists to make meaningful participation easier.</div>
         <div class="body-copy">
           <p>It is not built around a single product, trend or platform. It is a community layer where people can exchange ideas, discover opportunities and build relationships that extend beyond one conversation.</p>
@@ -187,9 +187,9 @@
         </div>
       </div>
 
-      <div class="about-pillars">
+      <div class="about-pillars reveal">
         <span class="section-label">Community Pillars</span>
-        <div class="pillars-grid">
+        <div class="pillars-grid stagger-children">
           <span class="pillar-item"><span class="pillar-dot"></span>Community First</span>
           <span class="pillar-item"><span class="pillar-dot"></span>Alpha Sharing</span>
           <span class="pillar-item"><span class="pillar-dot"></span>X Raid</span>
@@ -197,11 +197,11 @@
         </div>
       </div>
 
-      <div class="mascot-section">
+      <div class="mascot-section reveal">
         <span class="section-label">The Mascots</span>
         <h2 style="font: 600 clamp(2rem, 4vw, 3.5rem)/1 var(--display); letter-spacing: -0.04em; margin-bottom: 12px;">Meet Cipher & Ciphra</h2>
         <p style="color: var(--muted); max-width: 600px; margin-bottom: 32px;">The living, breathing identity of Society. Every person who enters adds their own character to the story.</p>
-        <div class="mascot-grid">
+        <div class="mascot-grid stagger-children">
           ${mascotCard("Cipher", "The Builder. The Analyst. The Signal.", "The builder who turns signals into structure. Every data point becomes a foundation. Cipher represents the analytical mind behind Society's research and alpha calls.", MASCOTS.cipher)}
           ${mascotCard("Ciphra", "The Dreamer. The Artist. The Voice.", "The artist who gives form to what others only feel. Culture flows through her work. Ciphra represents the creative spirit that brings the Society community to life.", MASCOTS.ciphra)}
         </div>
@@ -212,14 +212,14 @@
 
     services: (page) => `<div class="page">
       <div class="page-header">
-        <span class="eyebrow">${page.eyebrow}</span>
-        <h1>${page.heading}</h1>
+        <span class="eyebrow reveal">${page.eyebrow}</span>
+        <h1 class="reveal reveal-delay-1">${page.heading}</h1>
         <p>${page.intro}</p>
       </div>
 
-      <div class="services-section">
+      <div class="services-section reveal">
         <span class="section-label">Our Services</span>
-        <div class="services-grid">
+        <div class="services-grid stagger-children">
           ${serviceItem("01", "Alpha Calls", "Early opportunities, hidden gems, and ecosystem discoveries shared with the community.", serviceIcons.alpha)}
           ${serviceItem("02", "Airdrop Updates", "Stay informed with new campaigns, testnets, and reward opportunities.", serviceIcons.airdrop)}
           ${serviceItem("03", "X Raid", "Join coordinated raids and help projects increase visibility on X.", serviceIcons.raid)}
@@ -247,13 +247,13 @@
 
     faq: (page) => `<div class="page">
       <div class="page-header">
-        <span class="eyebrow">${page.eyebrow}</span>
-        <h1>${page.heading}</h1>
+        <span class="eyebrow reveal">${page.eyebrow}</span>
+        <h1 class="reveal reveal-delay-1">${page.heading}</h1>
         <p>${page.intro}</p>
       </div>
 
-      <div class="faq-section">
-        <div class="faq-list">
+      <div class="faq-section reveal">
+        <div class="faq-list stagger-children">
           <div class="faq-item">
             <div class="faq-question">
               <h3>What is Society?</h3>
@@ -289,8 +289,8 @@
     </div>`,
 
     join: (page) => `<div class="page">
-      <div class="join-section">
-        <span class="eyebrow">${page.eyebrow}</span>
+      <div class="join-section reveal">
+        <span class="eyebrow reveal">${page.eyebrow}</span>
         <h2>${page.heading}</h2>
         <p>${page.intro}</p>
         <div class="join-buttons">
@@ -404,6 +404,9 @@
       element.addEventListener("mouseenter", () => cursorFollower?.classList.add("is-large"));
       element.addEventListener("mouseleave", () => cursorFollower?.classList.remove("is-large"));
     });
+    initScrollReveal();
+    initMagneticButtons();
+    initLazyImages();
   };
 
   const initCursor = () => {
@@ -446,6 +449,73 @@
 
   const handleKeydown = (event) => { if (event.key === "Escape") closeMobileMenu(); };
 
+  const initScrollReveal = () => {
+    if (prefersReducedMotion) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+    document.querySelectorAll(".reveal, .stagger-children").forEach((el) => observer.observe(el));
+  };
+
+  const initMagneticButtons = () => {
+    if (prefersReducedMotion || window.matchMedia("(pointer: coarse)").matches) return;
+    document.querySelectorAll(".button, .social-link").forEach((btn) => {
+      btn.addEventListener("mousemove", (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+      });
+      btn.addEventListener("mouseleave", () => {
+        btn.style.transform = "";
+      });
+    });
+  };
+
+  const initParallax = () => {
+    if (prefersReducedMotion || window.matchMedia("(pointer: coarse)").matches) return;
+    const heroArt = document.querySelector(".hero-art");
+    if (!heroArt) return;
+    document.addEventListener("mousemove", (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      heroArt.style.transform = `translate(${x}px, ${y}px)`;
+    });
+  };
+
+  const initLazyImages = () => {
+    const imgObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.classList.add("loaded");
+          imgObserver.unobserve(img);
+        }
+      });
+    }, { rootMargin: "100px" });
+    document.querySelectorAll('img[loading="lazy"]').forEach((img) => imgObserver.observe(img));
+  };
+
+  const initSmoothScroll = () => {
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", function (e) {
+        const href = this.getAttribute("href");
+        if (href && href.startsWith("#") && href.length > 1) {
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth" });
+          }
+        }
+      });
+    });
+  };
+
   const init = () => {
     currentYear.textContent = new Date().getFullYear();
     navToggle?.addEventListener("click", toggleMobileMenu);
@@ -457,6 +527,11 @@
     updateScrollProgress();
     activeRoute = getRoute();
     navigate(getRoute(), false);
+    initScrollReveal();
+    initMagneticButtons();
+    initParallax();
+    initLazyImages();
+    initSmoothScroll();
     const hideLoader = () => { 
       setTimeout(() => { loader?.classList.add("is-hidden"); }, prefersReducedMotion ? 0 : 800); 
     };
