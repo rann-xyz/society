@@ -406,7 +406,9 @@
     });
     initScrollReveal();
     initMagneticButtons();
+    initCardSpotlight();
     initLazyImages();
+    initCounters();
   };
 
   const initCursor = () => {
@@ -449,8 +451,84 @@
 
   const handleKeydown = (event) => { if (event.key === "Escape") closeMobileMenu(); };
 
-  const initScrollReveal = () => {
+  /* ═══════════════════════════════════════════════════════════════
+     PARTICLE SYSTEM
+     ═══════════════════════════════════════════════════════════════ */
+  const initParticles = () => {
+    if (prefersReducedMotion || window.matchMedia("(pointer: coarse)").matches) return;
+    const container = document.getElementById("particles");
+    if (!container) return;
+    const particleCount = 25;
+    for (let i = 0; i < particleCount; i++) {
+      const p = document.createElement("div");
+      p.className = "particle";
+      p.style.left = Math.random() * 100 + "%";
+      p.style.width = (Math.random() * 3 + 1) + "px";
+      p.style.height = p.style.width;
+      p.style.animationDuration = (Math.random() * 15 + 10) + "s";
+      p.style.animationDelay = (Math.random() * 10) + "s";
+      p.style.opacity = Math.random() * 0.3 + 0.1;
+      container.appendChild(p);
+    }
+  };
+
+  /* ═══════════════════════════════════════════════════════════════
+     TYPING EFFECT
+     ═══════════════════════════════════════════════════════════════ */
+  const initTypingEffect = () => {
     if (prefersReducedMotion) return;
+    const heroHeading = document.querySelector(".hero-copy h1");
+    if (!heroHeading) return;
+    const text = heroHeading.textContent;
+    heroHeading.textContent = "";
+    heroHeading.style.opacity = "1";
+    let i = 0;
+    const type = () => {
+      if (i < text.length) {
+        heroHeading.textContent += text.charAt(i);
+        i++;
+        setTimeout(type, 40 + Math.random() * 30);
+      }
+    };
+    setTimeout(type, 800);
+  };
+
+  /* ═══════════════════════════════════════════════════════════════
+     COUNTER ANIMATION
+     ═══════════════════════════════════════════════════════════════ */
+  const initCounters = () => {
+    const counters = document.querySelectorAll("[data-count]");
+    if (!counters.length) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.count);
+          const duration = 2000;
+          const start = performance.now();
+          const animate = (now) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.floor(eased * target);
+            if (progress < 1) requestAnimationFrame(animate);
+          };
+          requestAnimationFrame(animate);
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach((c) => observer.observe(c));
+  };
+
+  /* ═══════════════════════════════════════════════════════════════
+     SCROLL REVEAL — Multi-direction
+     ═══════════════════════════════════════════════════════════════ */
+  const initScrollReveal = () => {
+    if (prefersReducedMotion) {
+      document.querySelectorAll(".reveal, .stagger-children").forEach((el) => el.classList.add("is-visible"));
+      return;
+    }
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -458,10 +536,13 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+    }, { threshold: 0.08, rootMargin: "0px 0px -60px 0px" });
     document.querySelectorAll(".reveal, .stagger-children").forEach((el) => observer.observe(el));
   };
 
+  /* ═══════════════════════════════════════════════════════════════
+     MAGNETIC BUTTONS
+     ═══════════════════════════════════════════════════════════════ */
   const initMagneticButtons = () => {
     if (prefersReducedMotion || window.matchMedia("(pointer: coarse)").matches) return;
     document.querySelectorAll(".button, .social-link").forEach((btn) => {
@@ -469,7 +550,7 @@
         const rect = btn.getBoundingClientRect();
         const x = e.clientX - rect.left - rect.width / 2;
         const y = e.clientY - rect.top - rect.height / 2;
-        btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+        btn.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`;
       });
       btn.addEventListener("mouseleave", () => {
         btn.style.transform = "";
@@ -477,17 +558,39 @@
     });
   };
 
+  /* ═══════════════════════════════════════════════════════════════
+     PARALLAX HERO
+     ═══════════════════════════════════════════════════════════════ */
   const initParallax = () => {
     if (prefersReducedMotion || window.matchMedia("(pointer: coarse)").matches) return;
     const heroArt = document.querySelector(".hero-art");
     if (!heroArt) return;
     document.addEventListener("mousemove", (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 20;
-      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      const x = (e.clientX / window.innerWidth - 0.5) * 25;
+      const y = (e.clientY / window.innerHeight - 0.5) * 25;
       heroArt.style.transform = `translate(${x}px, ${y}px)`;
     });
   };
 
+  /* ═══════════════════════════════════════════════════════════════
+     CARD SPOTLIGHT EFFECT
+     ═══════════════════════════════════════════════════════════════ */
+  const initCardSpotlight = () => {
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    document.querySelectorAll(".content-card").forEach((card) => {
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty("--mouse-x", x + "%");
+        card.style.setProperty("--mouse-y", y + "%");
+      });
+    });
+  };
+
+  /* ═══════════════════════════════════════════════════════════════
+     LAZY IMAGES
+     ═══════════════════════════════════════════════════════════════ */
   const initLazyImages = () => {
     const imgObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -501,6 +604,9 @@
     document.querySelectorAll('img[loading="lazy"]').forEach((img) => imgObserver.observe(img));
   };
 
+  /* ═══════════════════════════════════════════════════════════════
+     SMOOTH SCROLL
+     ═══════════════════════════════════════════════════════════════ */
   const initSmoothScroll = () => {
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
       anchor.addEventListener("click", function (e) {
@@ -516,6 +622,30 @@
     });
   };
 
+  /* ═══════════════════════════════════════════════════════════════
+     TEXT SCRAMBLE EFFECT
+     ═══════════════════════════════════════════════════════════════ */
+  const initTextScramble = () => {
+    if (prefersReducedMotion) return;
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+    document.querySelectorAll("[data-scramble]").forEach((el) => {
+      const original = el.textContent;
+      let iteration = 0;
+      const interval = setInterval(() => {
+        el.textContent = original
+          .split("")
+          .map((char, index) => {
+            if (index < iteration) return original[index];
+            if (char === " ") return " ";
+            return chars[Math.floor(Math.random() * chars.length)];
+          })
+          .join("");
+        if (iteration >= original.length) clearInterval(interval);
+        iteration += 1 / 2;
+      }, 30);
+    });
+  };
+
   const init = () => {
     currentYear.textContent = new Date().getFullYear();
     navToggle?.addEventListener("click", toggleMobileMenu);
@@ -527,11 +657,16 @@
     updateScrollProgress();
     activeRoute = getRoute();
     navigate(getRoute(), false);
+    initParticles();
     initScrollReveal();
     initMagneticButtons();
     initParallax();
+    initCardSpotlight();
     initLazyImages();
     initSmoothScroll();
+    initCounters();
+    setTimeout(initTypingEffect, 500);
+    setTimeout(initTextScramble, 1000);
     const hideLoader = () => { 
       setTimeout(() => { loader?.classList.add("is-hidden"); }, prefersReducedMotion ? 0 : 800); 
     };
